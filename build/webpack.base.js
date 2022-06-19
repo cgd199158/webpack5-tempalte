@@ -8,6 +8,8 @@ const PRODUCTION = process.env.NODE_ENV === 'production'; // Production mode
 module.exports = {
     entry: resolve(__dirname, '../main.js'),
     output: {
+        clean: true,
+        path: resolve(__dirname, 'dist'),
         filename: DEVELOPMENT
             ? 'js/[name].bundle.[chunkhash:4].js'
             : 'js/[name].bundle.[chunkhash:8].min.js',
@@ -17,15 +19,6 @@ module.exports = {
         publicPath: '/'
     },
     devtool: 'eval-cheap-module-source-map',
-    plugins: [
-        new CleanWebpackPlugin({
-            verbose: true,
-            cleanStaleWebpackAssets: false
-        }),
-        new htmlWebpackPlugin({
-            template: resolve('public', 'index.html'),
-        })
-    ],
     module: {
         rules: [
             {
@@ -34,10 +27,10 @@ module.exports = {
                 // loader: 'babel-loader' // loader是use: [{loader}]的简写
                 use: ['babel-loader']
             },
-            // {
-            //     test: /\.css$/,
-            //     use: ['style-loader', 'css-loader']
-            // },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'] // loader从右向左执行（柯里化）
+            },
             {
                 test: /\.(jpg|png|svg|jpeg|gif)$/i,
                 // type: 'asset/resource', // file-loader导出文件
@@ -56,5 +49,15 @@ module.exports = {
                 // ],
             }
         ]
-    }
+    },
+    plugins: [
+        new CleanWebpackPlugin({
+            verbose: true,
+            cleanStaleWebpackAssets: false
+        }),
+        new htmlWebpackPlugin({
+            title: 'webpack5-template',
+            template: resolve('public', 'index.html'),
+        })
+    ],
 }
