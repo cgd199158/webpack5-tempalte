@@ -4,8 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "serve": "webpack server  --node-env development -c ./build/webpack.dev.js --color",
-    "build": "webpack --node-env production -c ./build/webpack.pro.js"
+    "start": "npm run serve",
+    "serve": "webpack server --config ./build/webpack.dev.js --color",
+    "build": "webpack --config ./build/webpack.pro.js --progress --color"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +21,10 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.2",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "css-loader": "^6.7.1",
+    "lodash": "^4.17.21",
+    "style-loader": "^3.3.1"
   }
 }

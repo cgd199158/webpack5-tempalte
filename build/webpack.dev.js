@@ -4,11 +4,12 @@ const {resolve} = require('path')
 
 module.exports = merge(webpackBase, {
     mode: 'development',
-    devtool: 'eval-source-map',
+    devtool: 'eval-cheap-module-source-map', // 在大多数情况下，最佳选择是 eval-cheap-module-source-map。
     output: {
     },
     devServer:{
         port: 3333,
-        open: true
+        open: true,
+        hot: true, // 热更新HRM
     }
 })

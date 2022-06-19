@@ -1,5 +1,4 @@
 const htmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { resolve } = require('path')
 
 const DEVELOPMENT = process.env.NODE_ENV === 'development'; // Development mode
@@ -9,7 +8,7 @@ module.exports = {
     entry: resolve(__dirname, '../main.js'),
     output: {
         clean: true,
-        path: resolve(__dirname, 'dist'),
+        path: resolve(__dirname, '../dist'),
         filename: DEVELOPMENT
             ? 'js/[name].bundle.[chunkhash:4].js'
             : 'js/[name].bundle.[chunkhash:8].min.js',
@@ -18,12 +17,18 @@ module.exports = {
             : 'js/[name].chunk.[chunkhash:8].min.js',
         publicPath: '/'
     },
-    devtool: 'eval-cheap-module-source-map',
     module: {
         rules: [
+            // 处理ts
+            // {
+            //     test: /\.ts$/,
+            //     include: resolve(__dirname, '../src'),
+            //     loader: 'ts-loader',
+            // },
             {
                 test: /\.js$/,
-                type: 'javascript/auto',
+                // type: 'javascript/auto',
+                include: resolve(__dirname, '../src'),
                 // loader: 'babel-loader' // loader是use: [{loader}]的简写
                 use: ['babel-loader']
             },
@@ -51,10 +56,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin({
-            verbose: true,
-            cleanStaleWebpackAssets: false
-        }),
         new htmlWebpackPlugin({
             title: 'webpack5-template',
             template: resolve('public', 'index.html'),
