@@ -1,8 +1,9 @@
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const webpackBase = require("./webpack.base");
 const { merge } = require("webpack-merge")
 
 module.exports = merge(webpackBase, {
-    mode: 'production',
+    mode: 'development',
     devtool: 'source-map', // 生产环境中无其他特殊情况用source-map //避免在生产中使用 inline-*** 和 eval-***，因为它们会增加 bundle 体积大小，并降低整体性能
     output: {
         pathinfo: false
@@ -35,5 +36,11 @@ module.exports = merge(webpackBase, {
         //         },
         //     }, 
         // }
-    }
+    },
+    plugins: [
+        // 匹配runtime文件并写入到html中,减少请求的同时能充分利用浏览器缓存
+        new ScriptExtHtmlWebpackPlugin({
+            inline: /runtime.*?\.js$/  //正则匹配runtime文件名
+        })
+    ]
 })

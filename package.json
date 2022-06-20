@@ -16,15 +16,16 @@
     "babel-loader": "^8.2.5",
     "babel-polyfill": "^6.26.0",
     "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
+    "script-ext-html-webpack-plugin": "^2.1.5",
+    "style-loader": "^3.3.1",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.2",
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "css-loader": "^6.7.1",
-    "lodash": "^4.17.21",
-    "style-loader": "^3.3.1"
+    "lodash": "^4.17.21"
   }
 }

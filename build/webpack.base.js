@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const { resolve } = require('path')
 
@@ -59,6 +60,11 @@ module.exports = {
         new htmlWebpackPlugin({
             title: 'webpack5-template',
             template: resolve('public', 'index.html'),
-        })
+        }),
+        // shimming 全局变量
+        new webpack.ProvidePlugin({
+            _: 'lodash',
+            cloneDeep: ['lodash', 'cloneDeep'], // 通过数组路径将模块中的单个模块暴露再全局
+        }),
     ],
 }

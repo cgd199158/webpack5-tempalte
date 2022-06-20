@@ -1,5 +1,4 @@
 import DemoImg from '../../assets/imgs/demo.jpeg'
-import _ from 'lodash'
 
 
 const printHello = function(){
@@ -14,7 +13,9 @@ const printHello = function(){
     div.appendChild(img)
     document.querySelector('#app')?.append(div)
     console.log('ces ')
-  
+    const a = {a: 1, b: 2}
+    const b = cloneDeep(a)
+    console.log('b', b)
 }
 
 export default printHello
