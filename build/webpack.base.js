@@ -1,24 +1,27 @@
 const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const {VueLoaderPlugin} = require('vue-loader')
 const { resolve } = require('path')
-
-const DEVELOPMENT = process.env.NODE_ENV === 'development'; // Development mode
-const PRODUCTION = process.env.NODE_ENV === 'production'; // Production mode
+const config = require('./config.js')
 
 module.exports = {
-    entry: resolve(__dirname, '../main.js'),
+    entry: resolve(__dirname, '../src/main.js'),
     output: {
         clean: true,
         path: resolve(__dirname, '../dist'),
-        filename: DEVELOPMENT
-            ? 'js/[name].bundle.[chunkhash:4].js'
-            : 'js/[name].bundle.[chunkhash:8].min.js',
-        chunkFilename: DEVELOPMENT
-            ? 'js/[name].chunk.[chunkhash:4].js'
-            : 'js/[name].chunk.[chunkhash:8].min.js',
+        filename: 'js/[name].[hash:6].js',
+        chunkFilename: 'js/chunck.[name].[hash:6].js',
         publicPath: '/'
     },
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, '..', 'src')
+        },
+        modules: ['node_modules','*'],
+        extensions: ['.ts', '.js', '.vue']
+    },
     module: {
+        noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/, // 对成熟的库不做解析
         rules: [
             // 处理ts
             // {
@@ -29,19 +32,22 @@ module.exports = {
             {
                 test: /\.js$/,
                 // type: 'javascript/auto',
-                include: resolve(__dirname, '../src'),
+                // include: resolve(__dirname, '../src'),
                 // loader: 'babel-loader' // loader是use: [{loader}]的简写
                 use: ['babel-loader']
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'] // loader从右向左执行（柯里化）
+                use: ['vue-style-loader', 'css-loader', 'postcss-loader'] // loader从右向左执行（柯里化）
             },
             {
                 test: /\.(jpg|png|svg|jpeg|gif)$/i,
-                // type: 'asset/resource', // file-loader导出文件
+                type: 'asset/resource', // file-loader导出文件
+                generator: {
+                    filename: 'imgs/[name].[hash:6].[ext]'
+                }
                 // type: 'asset/source', // raw-loader导出源文件到路径当中
-                type: 'asset/inline', // 直接转换base64到路径当中
+                // type: 'asset/inline', // 直接转换base64到路径当中
                 // 只使用第一个匹配的规则，从上至下
                 // oneOf: [
                 //     {
@@ -53,10 +59,15 @@ module.exports = {
                 //         use: 'file-loader',
                 //     },
                 // ],
-            }
+            },
+            {
+				test: /\.vue$/,
+				loader: 'vue-loader',
+			},
         ]
     },
     plugins: [
+        new VueLoaderPlugin(),
         new htmlWebpackPlugin({
             title: 'webpack5-template',
             template: resolve('public', 'index.html'),
