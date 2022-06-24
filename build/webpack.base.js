@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {VueLoaderPlugin} = require('vue-loader')
 const { resolve } = require('path')
 const config = require('./config.js')
@@ -11,7 +12,7 @@ module.exports = {
         path: resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:6].js',
         chunkFilename: 'js/chunck.[name].[hash:6].js',
-        publicPath: '/'
+        publicPath: config.publicPath
     },
     resolve: {
         alias: {
@@ -38,10 +39,71 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['vue-style-loader', 'css-loader', 'postcss-loader'] // loader从右向左执行（柯里化）
+                use: [
+                    config.isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: config.isProd,
+							importLoaders: 1,
+							esModule: true,
+						},
+					},
+					{
+						loader: 'postcss-loader',
+						options: {
+							sourceMap: config.isProd,
+                            postcssOptions: {
+								plugins: [['autoprefixer']],
+							},
+						},
+					},
+                ]// loader从右向左执行（柯里化）
             },
             {
-                test: /\.(jpg|png|svg|jpeg|gif)$/i,
+                test: /\.scss$/,
+                use: [
+					// 生产版本，我们建议从 bundle 中提取 CSS，以便之后可以使 CSS/JS 资源并行加载
+                    config.isPord ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: config.isPord,
+                            esModule: true,
+                            importLoaders: 1
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: config.isPord,
+                            postcssOptions: {
+								plugins: [['autoprefixer']],
+							},
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: config.isPord
+                        }
+                    }
+                ]
+            },
+            {
+				test: /\.vue$/,
+				loader: 'vue-loader',
+			},
+            /* config.module.rule('svg') */
+			{
+				test: /\.(svg)(\?.*)?$/,
+				type: 'asset/resource',
+				generator: {
+					filename: 'img/[name].[hash:8][ext]',
+				},
+			},
+            {
+				test: /\.(png|jpe?g|gif|webp|avif)(\?.*)?$/,
                 type: 'asset/resource', // file-loader导出文件
                 generator: {
                     filename: 'imgs/[name].[hash:6].[ext]'
@@ -61,21 +123,44 @@ module.exports = {
                 // ],
             },
             {
-				test: /\.vue$/,
-				loader: 'vue-loader',
+				test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+				type: 'asset',
+				generator: {
+					filename: 'media/[name].[hash:8][ext]',
+				},
 			},
+			{
+				test: /\.(woff|woff2|eot|ttf|otf)$/, // 处理字体
+				type: 'asset/resource',
+				generator: {
+					filename: 'font/[name].[hash:6][ext]',
+				},
+			},
+            
         ]
     },
     plugins: [
         new VueLoaderPlugin(),
-        new htmlWebpackPlugin({
-            title: 'webpack5-template',
-            template: resolve('public', 'index.html'),
+        // 定义变量
+        new webpack.DefinePlugin({
+            __VUE_OPTIONS_API__:true,
+            __VUE_PROD_DEVTOOLS__: config.isPord
+        }),
+        // 定义NODE_ENV
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_EVN: config.isPord ? "production" : "development"
+            }
         }),
         // shimming 全局变量
         new webpack.ProvidePlugin({
             _: 'lodash',
             cloneDeep: ['lodash', 'cloneDeep'], // 通过数组路径将模块中的单个模块暴露再全局
+        }),
+        new htmlWebpackPlugin({
+            title: config.title,
+			template: resolve(__dirname, '/public/index.html'),
+			hash: true, // 破坏缓存
         }),
     ],
 }

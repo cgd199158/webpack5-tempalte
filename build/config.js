@@ -21,4 +21,5 @@ module.exports = {
   isPord: process.env.npm_lifecycle_evetn === 'build',
 	devServer: getIPAdress() || 'localhost',
 	port: '6666',
+	publicPath: '/'
 }
