@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "checkJs": false,
-    "moduleResolution": "node",
+    "target": "es5",
+    "module": "esnext",
     "baseUrl": "./",
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
     "paths": {
-      "@/*": ["@/*"]
-    }
-  },
-  "exclude": ["node_modules"]
+      "@/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  }
 }

@@ -6,7 +6,7 @@ const { resolve } = require('path');
 const config = require('./config.js');
 
 module.exports = {
-  entry: resolve(__dirname, '../src/main.js'),
+  entry: resolve(__dirname, '../src/main.ts'),
   output: {
     clean: true,
     path: resolve(__dirname, '../dist'),
@@ -25,11 +25,15 @@ module.exports = {
     noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/, // 对成熟的库不做解析
     rules: [
       // 处理ts
-      // {
-      //     test: /\.ts$/,
-      //     include: resolve(__dirname, '../src'),
-      //     loader: 'ts-loader',
-      // },
+      {
+        test: /\.tsx?$/,
+        include: resolve(__dirname, '../src'),
+        loader: 'ts-loader',
+        options: {
+          // 对应文件添加个.ts或.tsx后缀
+          appendTsSuffixTo: [/\.vue$/],
+        },
+      },
       {
         test: /\.js$/,
         // type: 'javascript/auto',
@@ -93,6 +97,9 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          reactivityTransform: false, // 响应性语法糖目前默认是关闭状态，需要你显式选择启用(true: 开启, false: 关闭)
+        },
       },
       /* config.module.rule('svg') */
       {
