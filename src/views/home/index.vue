@@ -8,6 +8,6 @@ const name = ref('home');
 </script>
 <style lang="scss">
 div {
-  color: red;
+  color: $red;
 }
 </style>

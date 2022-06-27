@@ -92,6 +92,12 @@ module.exports = {
               sourceMap: config.isPord,
             },
           },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: 'src/styles/vars.scss',
+            },
+          },
         ],
       },
       {

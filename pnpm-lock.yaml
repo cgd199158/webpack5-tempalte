@@ -25,6 +25,7 @@ specifiers:
   progress-bar-webpack-plugin: ^2.1.0
   sass: ^1.53.0
   sass-loader: ^13.0.0
+  sass-resources-loader: ^2.2.5
   script-ext-html-webpack-plugin: ^2.1.5
   style-loader: ^3.3.1
   ts-loader: ^9.3.1
@@ -68,6 +69,7 @@ devDependencies:
   progress-bar-webpack-plugin: 2.1.0_webpack@5.73.0
   sass: 1.53.0
   sass-loader: 13.0.0_sass@1.53.0+webpack@5.73.0
+  sass-resources-loader: 2.2.5
   script-ext-html-webpack-plugin: 2.1.5_a820a5d2f5efec3723135bb31b5f3891
   style-loader: 3.3.1_webpack@5.73.0
   ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
@@ -929,6 +931,10 @@ packages:
   /astral-regex/2.0.0:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
+    dev: true
+
+  /async/3.2.4:
+    resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==}
     dev: true
 
   /autoprefixer/10.4.7_postcss@8.4.14:
@@ -3719,6 +3725,15 @@ packages:
       neo-async: 2.6.2
       sass: 1.53.0
       webpack: 5.73.0_webpack-cli@4.10.0
+    dev: true
+
+  /sass-resources-loader/2.2.5:
+    resolution: {integrity: sha512-po8rfETH9cOQACWxubT/1CCu77KjxwRtCDm6QAXZH99aUHBydwSoxdIjC40SGp/dcS/FkSNJl0j1VEojGZqlvQ==}
+    dependencies:
+      async: 3.2.4
+      chalk: 4.1.2
+      glob: 7.2.3
+      loader-utils: 2.0.2
     dev: true
 
   /sass/1.53.0:
