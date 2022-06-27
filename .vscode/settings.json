@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true, // 总是在 VSCode 显示 ESLint 的状态
+  "eslint.quiet": false, // 忽略 warning 的错误,
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": ["javascript", "javascriptreact", "vue", "typescript", "typescriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
