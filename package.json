@@ -10,7 +10,8 @@
     "lint:fix": "npx eslint --cache --fix --ext .js,.jsx,.vue src",
     "prepare": "husky install",
     "postinstall": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "commitlint": "npx commitlint -e"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,9 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.18.2",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-angular": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.0",
     "@types/webpack-env": "^1.17.0",
