@@ -68,11 +68,11 @@ module.exports = {
         test: /\.scss$/,
         use: [
           // 生产版本，我们建议从 bundle 中提取 CSS，以便之后可以使 CSS/JS 资源并行加载
-          config.isPord ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          config.isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           {
             loader: 'css-loader',
             options: {
-              sourceMap: config.isPord,
+              sourceMap: config.isProd,
               esModule: true,
               importLoaders: 1,
             },
@@ -80,7 +80,7 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: config.isPord,
+              sourceMap: config.isProd,
               postcssOptions: {
                 plugins: [['autoprefixer']],
               },
@@ -89,7 +89,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: config.isPord,
+              sourceMap: config.isProd,
             },
           },
           {
@@ -156,12 +156,12 @@ module.exports = {
     // 定义变量
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: config.isPord,
+      __VUE_PROD_DEVTOOLS__: config.isProd,
     }),
     // 定义NODE_ENV
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_EVN: config.isPord ? 'production' : 'development',
+        NODE_EVN: config.isProd ? 'production' : 'development',
       },
     }),
     // shimming 全局变量

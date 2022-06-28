@@ -1,12 +1,5 @@
 <template>
-  <div>
-    <h1>app</h1>
-    <router-link style="margin-right: 10px" to="/">home</router-link>
-    <router-link to="/login">login</router-link>
-    <div class="main-box">
-      <router-view></router-view>
-    </div>
-  </div>
+  <router-view></router-view>
 </template>
 
 <style scoped lang="scss">

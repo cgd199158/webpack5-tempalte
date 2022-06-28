@@ -6,8 +6,8 @@
     "start": "npm run serve",
     "serve": "webpack server --config ./build/webpack.dev.js --color",
     "build": "webpack --config ./build/webpack.pro.js --progress --color",
-    "lint": "npx eslint --ext .js,.jsx,.vue src",
-    "lint:fix": "npx eslint --fix --ext .js,.jsx,.vue src",
+    "lint": "npx eslint --cache --ext .js,.jsx,.vue src",
+    "lint:fix": "npx eslint --cache --fix --ext .js,.jsx,.vue src",
     "prepare": "husky install",
     "postinstall": "husky install",
     "pre-commit": "lint-staged"
@@ -16,12 +16,14 @@
   "author": "",
   "license": "ISC",
   "lint-staged": {
-    "*.{js,vue}": "eslint --cache --fix"
+    "src/*.{js,vue}": "npm run lint:fix"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.18.2",
-    "@types/vue-router": "^2.0.0",
+    "@types/lodash": "^4.14.182",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "babel-polyfill": "^6.26.0",
@@ -56,6 +58,8 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@vueuse/core": "^8.7.5",
+    "axios": "^0.27.2",
     "lodash": "^4.17.21",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16"

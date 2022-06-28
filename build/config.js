@@ -15,7 +15,7 @@ const getIPAdress = () => {
 
 module.exports = {
   title: 'vue3-webpack-ts',
-  isPord: process.env.npm_lifecycle_evetn === 'build',
+  isProd: process.env.npm_lifecycle_evetn === 'build',
   devServer: getIPAdress() || 'localhost',
   port: 9003,
   publicPath: '/',
