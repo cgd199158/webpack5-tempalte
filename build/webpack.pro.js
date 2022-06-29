@@ -1,4 +1,4 @@
-// const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
+/* eslint-disable @typescript-eslint/no-require-imports */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
@@ -7,6 +7,7 @@ const webpackBase = require('./webpack.base');
 const chalk = require('chalk');
 const { merge } = require('webpack-merge');
 const config = require('./config');
+const path = require('path');
 
 module.exports = merge(webpackBase, {
   mode: 'development',
@@ -21,6 +22,7 @@ module.exports = merge(webpackBase, {
     // },
   },
   stats: 'verbose', // 全部输出
+  // recordsPath: path.join(__dirname, '../dist/records.json'), // 用于记录依赖的文件
   optimization: {
     minimize: true,
     minimizer: [
@@ -37,19 +39,23 @@ module.exports = merge(webpackBase, {
       new CssMinimizerWebpackPlugin(),
     ],
     // runtimeChunk: 'single',
+    // runtimeChunk: { name: 'runtime' },
+    // webpack4之前用的webpack.optimize.CommonsChunkPlugin抽离公共代码
     splitChunks: {
-      chunks: 'async',
-      minSize: 20000,
-      minRemainingSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
+      chunks: 'all', // all:所有模块都提取公共代码，async:异步模块提取公共代码，initial:同步模块提取公共代码
+      minSize: 20000, // 模块大于20k会被抽离到公共chunk中
+      minRemainingSize: 0, // 当模块大于这个值时，会被抽离到公共chunk中
+      minChunks: 1, // 公共chunk最小模块数
+      maxAsyncRequests: 30, // 异步chunk最大并行请求数
+      maxInitialRequests: 30, // 入口chunk最大并行请求数
+      enforceSizeThreshold: 50000, // 当模块大于这个值时，会被抽离到公共chunk中
+      hidePathInfo: true, // 当抽离的chunk不是入口chunk时，隐藏抽离的模块路径
       cacheGroups: {
+        // 默认的公共代码抽离
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          reuseExistingChunk: true,
+          priority: -10, // 优先级
+          reuseExistingChunk: true, // 如果当前的chunk已经被抽离，则使用已经存在的chunk
         },
         default: {
           minChunks: 2,

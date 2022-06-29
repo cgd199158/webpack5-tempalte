@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const webpackBase = require('./webpack.base');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 // const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
