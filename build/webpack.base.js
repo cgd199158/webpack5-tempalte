@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
 const { VueLoaderPlugin } = require('vue-loader');
 const { resolve } = require('path');
 const config = require('./config.js');
@@ -159,6 +160,16 @@ module.exports = {
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: config.isProd,
+    }),
+    // 使用unplugin-auto-import
+    require('unplugin-auto-import/webpack')({
+      imports: ['vue', 'vue-router'],
+      dts: resolve(__dirname, '../src/types/auto-import.d.ts'),
+    }),
+    // 使用unplugin-vue-components
+    require('unplugin-vue-components/webpack')({
+      dts: resolve(__dirname, '../src/types/vue-components.d.ts'),
+      resolvers: [ElementPlusResolver()],
     }),
     // 定义NODE_ENV
     new webpack.DefinePlugin({

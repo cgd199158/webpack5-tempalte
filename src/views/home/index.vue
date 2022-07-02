@@ -1,6 +1,5 @@
 <template>
-  <div>{{ name }}</div>
-  <div>{{ total }}</div>
+  <el-button type="primary">测试</el-button>
 </template>
 
 <script lang="ts" setup>
