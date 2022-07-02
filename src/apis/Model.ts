@@ -3,26 +3,26 @@ import * as Axios from '@/utils/axios';
 import { AxiosRequestConfig } from 'axios';
 import useUser from '@/hooks/useUser';
 
-export type IModelOptions = {
+export interface IModelOptions {
   type: 'get' | 'post';
   url: string;
   disToken?: boolean;
   [key: string]: string | number | boolean | undefined | Record<string, any>;
-};
+}
 
-export type IModelReuslt = {
+export interface IModelReuslt {
   data: Record<string, any>;
   state: string;
   [key: string]: any;
-};
+}
 
 export default class Model {
   public domain: string; // 请求公用url
   public defaultType: 'get' | 'post'; // 请求类型
   public options: IModelOptions; // 安全读取数据逻辑
   public result: IModelReuslt; // 返回结果
-  private timeOut: number; // 超时时间
   public config: AxiosRequestConfig; // 请求配置信息
+  private timeOut: number; // 超时时间
 
   /**
    * 初始化配置
@@ -58,11 +58,11 @@ export default class Model {
   async fetch(data: Record<string, any> = {}) {
     const beforRequestData = this.formatBeforeRequestData(data);
     return new Promise((resolve, reject) => {
-      //记录下请求开始时间
+      // 记录下请求开始时间
       const startTime = new Date().getTime();
       Axios[`req${this.options.type}`](this.domain + this.options.url, beforRequestData, this.config)
         .then((res: any) => {
-          //计算请求时间
+          // 计算请求时间
           const fetchTime = new Date().getTime() - startTime;
           if (fetchTime > this.timeOut) {
             console.error(`请求超时:${this.options.url}`);
@@ -75,7 +75,7 @@ export default class Model {
             resolve(this);
           } else {
             this.result.error = this.handerError(result);
-            reject(this);
+            reject(new Error(this.result.error));
           }
         })
         .catch(() => {
@@ -99,7 +99,7 @@ export default class Model {
    * @param data
    */
   formatOptions(data: IModelOptions) {
-    const result = Object.assign({ type: this.defaultType }, this.options, data);
+    const result = { ...this.options, ...data };
     this.options = result;
     return this;
   }
@@ -119,7 +119,7 @@ export default class Model {
    * @param data
    */
   isSuccess(data: Record<string, any>): boolean {
-    return parseInt(data.code) === 200;
+    return data.code == 200;
   }
 
   /**
@@ -161,10 +161,10 @@ export default class Model {
    * res.get('goodsComments[0].author','匿名')
    */
   get(path: string | string[], defaultValue?: any) {
-    if (this.result && this.result.data) {
+    if (this.result?.data) {
       return (
         (!Array.isArray(path) ? path.replace(/\[/g, '.').replace(/\]/g, '').split('.') : path).reduce(
-          (o, k) => (o || {})[k],
+          (o, k) => o?.[k],
           this.result.data,
         ) || defaultValue
       );

@@ -16,5 +16,6 @@ module.exports = {
   },
   rules: {
     'vue/multi-word-component-names': 0,
+    '@typescript-eslint/explicit-member-accessibility': 0,
   },
 };

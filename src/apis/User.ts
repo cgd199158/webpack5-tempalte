@@ -11,13 +11,13 @@ export class GetFrontEndConfig extends Model {
   }
 
   formatOptions(data: IModelOptions) {
-    const result = Object.assign({ type: 'post' }, this.options, data);
+    const result = { ...this.options, ...data };
     this.options = result;
     return this;
   }
 
   isSuccess(data: Record<string, any>): boolean {
-    return parseInt(data.code) === 200;
+    return data.code == 200;
   }
 
   handlerData(data: Record<string, any>): Record<string, any> {
