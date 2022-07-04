@@ -184,7 +184,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: config.title,
-      template: resolve(__dirname, '/public/index.html'),
+      template: resolve(__dirname, '../public/index.html'),
       hash: true, // 破坏缓存
     }),
     // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核资源来提升编译的速度
