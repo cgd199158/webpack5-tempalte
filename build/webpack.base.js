@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
 const { VueLoaderPlugin } = require('vue-loader');
 const { resolve } = require('path');
@@ -156,6 +157,16 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    // 复制静态文件
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, '../public/static'),
+          to: resolve(__dirname, '../dist/static'),
+          toType: 'dir',
+        },
+      ],
+    }),
     // 定义变量
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
