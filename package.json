@@ -11,7 +11,9 @@
     "prepare": "husky install",
     "postinstall": "husky install",
     "pre-commit": "lint-staged",
-    "commitlint": "npx commitlint -e"
+    "commitlint": "npx commitlint -e",
+    "serve:vite": "vite",
+    "build:vite": "vue-tsc --noEmit && vite build"
   },
   "keywords": [],
   "author": "",
@@ -69,11 +71,14 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
     "@vueuse/core": "^8.7.5",
     "axios": "^0.27.2",
     "element-plus": "^2.2.8",
     "lodash": "^4.17.21",
+    "vite": "^2.9.13",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue-router": "^4.0.16",
+    "vue-tsc": "^0.38.3"
   }
 }
