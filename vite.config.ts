@@ -36,13 +36,13 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
-      dts: resolve(__dirname, './src/types/vue-components.d.ts'),
+      dts: resolve(__dirname, './typings/vue-components.d.ts'),
       resolvers: [ElementPlusResolver()],
     }),
     ,
     AutoImport({
       imports: ['vue', 'vue-router'],
-      dts: resolve(__dirname, './src/types/auto-import.d.ts'),
+      dts: resolve(__dirname, './typings/auto-import.d.ts'),
     }),
     viteImagemin({
       gifsicle: {
