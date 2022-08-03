@@ -5,6 +5,8 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import viteImagemin from 'vite-plugin-imagemin';
+import { visualizer } from 'rollup-plugin-visualizer';
+const lifecycle = process.env.npm_lifecycle_event;
 // 在服务端获取配置参数
 
 export default defineConfig({
@@ -71,6 +73,7 @@ export default defineConfig({
         ],
       },
     }),
+    lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : null,
   ],
   build: {
     commonjsOptions: {
